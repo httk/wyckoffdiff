@@ -358,9 +358,21 @@ class WyckoffDataset(InMemoryDataset):
         data.x = torch.chunk(data.x, len(data.wyckoff_set), 0)[
             torch.randint(len(data.wyckoff_set), (1,))
         ]
-        data.x_0_dof = data.x[data.zero_dof, 0]
-        data.x_inf_dof = data.x[~data.zero_dof, 1 : (self.num_elements + 1)]
-        return data
+
+        return Data(
+            x_0_dof=data.x[data.zero_dof, 0],
+            x_inf_dof=data.x[~data.zero_dof, 1 : (self.num_elements + 1)],
+            edge_index=data.edge_index,
+            space_group=data.space_group,
+            multiplicities=data.multiplicities,
+            num_pos=data.num_pos,
+            num_nodes=data.num_pos,
+            zero_dof=data.zero_dof,
+            num_0_dof=data.num_0_dof,
+            num_inf_dof=data.num_inf_dof,
+            wyckoff_pos_idx=data.wyckoff_pos_idx,
+            degrees_of_freedom=data.degrees_of_freedom,
+        )
 
     @classmethod
     def get_dataloaders(cls, config):
@@ -371,7 +383,15 @@ class WyckoffDataset(InMemoryDataset):
             )
             loaders.append(
                 DataLoader(
-                    dataset, batch_size=config["batch_size"], shuffle=split == "train"
+                    dataset,
+                    batch_size=config["batch_size"],
+                    shuffle=split == "train",
+                    num_workers=config["num_workers"],
+                    pin_memory=~config["pin_memory_false"],
+                    persistent_workers=(
+                        ~config["persistent_workers_false"]
+                        and config["num_workers"] > 0
+                    ),
                 )
             )
         return loaders

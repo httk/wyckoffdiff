@@ -17,6 +17,7 @@ default_args_dict = {
     "l2_reg": 0.0,
     "epochs": 1000,
     "val_interval": 1,
+    "num_workers": 0,
     # D3PM
     "t_max": 1000,
     "num_elements": 100,
@@ -109,6 +110,23 @@ def get_parser():
         type=int,
         default=default_args_dict["val_interval"],
         help="Evaluation interval, number of gradient steps",
+    )
+
+    parser.add_argument(
+        "--num_workers",
+        type=int,
+        default=default_args_dict["num_workers"],
+        help="num_workers for dataloader",
+    )
+
+    parser.add_argument(
+        "--pin_memory_false", action="store_true", help="Use pin_memory=False"
+    )
+
+    parser.add_argument(
+        "--persistent_workers_false",
+        action="store_true",
+        help="Use persistent_workers=False",
     )
 
     parser.add_argument(
