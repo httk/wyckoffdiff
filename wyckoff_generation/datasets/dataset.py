@@ -387,10 +387,9 @@ class WyckoffDataset(InMemoryDataset):
                     batch_size=config["batch_size"],
                     shuffle=split == "train",
                     num_workers=config["num_workers"],
-                    pin_memory=~config["pin_memory_false"],
+                    pin_memory=config["pin_memory"],
                     persistent_workers=(
-                        ~config["persistent_workers_false"]
-                        and config["num_workers"] > 0
+                        config["persistent_workers"] and config["num_workers"] > 0
                     ),
                 )
             )

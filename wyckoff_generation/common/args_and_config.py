@@ -120,13 +120,14 @@ def get_parser():
     )
 
     parser.add_argument(
-        "--pin_memory_false", action="store_true", help="Use pin_memory=False"
+        "--pin_memory", type=bool, default=True, help="pin_memory passed to dataloader"
     )
 
     parser.add_argument(
-        "--persistent_workers_false",
-        action="store_true",
-        help="Use persistent_workers=False",
+        "--persistent_workers",
+        type=bool,
+        default=True,
+        help="persistent_workers passed to dataloader in case num_workers>0",
     )
 
     parser.add_argument(
