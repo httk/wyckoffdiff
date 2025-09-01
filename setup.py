@@ -15,7 +15,7 @@ setup(
         "torch==2.3.0",
         "torch_geometric==2.5.3",
         "tqdm",
-        "numpy",
+        "numpy==1.26.4",
         "matplotlib",
         "scikit-learn",
         "pandas",
