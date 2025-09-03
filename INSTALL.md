@@ -26,11 +26,6 @@ Perform these steps to install WyckoffDiff and its dependencies.
     pip install -e .
     ```
 
-1. Install [Aviary](https://github.com/CompRhys/aviary) by
-    ```
-    pip install -U git+https://github.com/CompRhys/aviary@v1.1.1
-    ```
-
 1. Install pre-commit hooks by
     ```
     pre-commit install
