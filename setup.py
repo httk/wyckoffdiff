@@ -16,6 +16,7 @@ setup(
         "torch_geometric==2.5.3",
         "tqdm",
         "numpy==1.26.4",
+        'Aviary @ git+https://github.com/CompRhys/aviary@v1.1.1',
         "matplotlib",
         "scikit-learn",
         "pandas",
