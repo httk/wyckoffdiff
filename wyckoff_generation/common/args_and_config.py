@@ -18,6 +18,8 @@ default_args_dict = {
     "epochs": 1000,
     "val_interval": 1,
     "num_workers": 0,
+    "pin_memory": True,
+    "persistent_workers": True,
     # D3PM
     "t_max": 1000,
     "num_elements": 100,
@@ -120,13 +122,16 @@ def get_parser():
     )
 
     parser.add_argument(
-        "--pin_memory", type=bool, default=True, help="pin_memory passed to dataloader"
+        "--pin_memory",
+        type=bool,
+        default=default_args_dict["pin_memory"],
+        help="pin_memory passed to dataloader",
     )
 
     parser.add_argument(
         "--persistent_workers",
         type=bool,
-        default=True,
+        default=default_args_dict["persistent_workers"],
         help="persistent_workers passed to dataloader in case num_workers>0",
     )
 
