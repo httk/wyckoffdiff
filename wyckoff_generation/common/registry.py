@@ -1,27 +1,23 @@
+# This file is based on code made available under the MIT license by FAIR Chemistry available from their repository as https://github.com/facebookresearch/fairchem/blob/dbaefaed40eee2844d033c78ccd2fe68976ebcb6/ocpmodels/common/registry.py
+#
+# Modifications Copyright (c) 2025 The High-Throughput Toolkit
+#
+# The original copyright header from the fairchem file follows below:
+#
+# MIT License
+#
+# Copyright (c) Meta, Inc. and its affiliates.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+# of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+# FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
+# AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
-This file is based on code made available under the MIT license by FAIR Chemistry available from their repository as https://github.com/facebookresearch/fairchem/blob/dbaefaed40eee2844d033c78ccd2fe68976ebcb6/ocpmodels/common/registry.py
-
-Modifications Copyright (c) 2025 The High-Throughput Toolkit
-
-The original copyright header from the fairchem file follows below:
-
-MIT License
-
-Copyright (c) Meta, Inc. and its affiliates.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
-AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-"""
-"""
-
 Registry is central source of truth. Inspired from Redux's concept of
 global store, Registry maintains mappings of various information to unique
 keys. Special functions in registry can be used as decorators to register
