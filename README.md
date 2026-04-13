@@ -13,11 +13,11 @@ See [INSTALL.md](INSTALL.md) for instructions on how to install required package
 ### Train
 To train a WyckoffDiff model on WBM, a minimal example is
 ```
-python main.py --mode train_d3pm --d3pm_transition [uniform/marginal/zeros_init] --logger [none/model_only/local_only/tensorboard/wandb]
+python main.py --mode train_d3pm --d3pm_transition [uniform/marginal/zeros_init] --logger [none/model_only/local_only/tensorboard/wandb] --num_workers [NUM_WORKERS]
 ```
 Warning: using logger ```none``` will not save any checkpoints (or anything else), but can be used for, e.g., debugging.
 
-This command will use the default values for all other parameters, which are the ones used in the paper.
+This command will use the default values for all other parameters, which are the ones used in the paper. **Note: It is not strictly necessary to set ```num_workers```, and if not it will default to 0. However, in our experience, increasing it can substantially speed up training**
 
 ### Generate
 To generate new data, a minimal example is
