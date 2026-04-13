@@ -37,6 +37,8 @@ default_args_dict = {
     "mlp_activation": "SiLU",
     # Generation
     "num_samples": 10000,
+    # Evaluation
+    "num_samples_in_evaluation": 10000,
 }
 
 
@@ -264,6 +266,26 @@ def get_parser():
         type=int,
         default=default_args_dict["num_samples"],
         help="Number of samples to generate",
+    )
+
+    # Evaluation
+    parser.add_argument(
+        "--generated_datafile",
+        type=str,
+        help="Path to generated data",
+    )
+
+    parser.add_argument(
+        "--train_datafile",
+        type=str,
+        help="Path to csv file with training data (for evaluation)",
+    )
+
+    parser.add_argument(
+        "--num_samples_in_evaluation",
+        type=int,
+        default=default_args_dict["num_samples_in_evaluation"],
+        help="Number of samples to compute evaluation statistics on",
     )
 
     # Post processing of generated samples

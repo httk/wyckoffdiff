@@ -3,6 +3,7 @@ from collections import defaultdict
 
 import aviary.wren.data as aviary_wren_data
 import aviary.wren.utils as aviary_wren_utils
+import pandas as pd
 import torch
 from aviary.wren.utils import (
     canonicalize_element_wyckoffs,
@@ -304,3 +305,82 @@ def enrich_dataset(
         return dataset, all_aflow_labels, all_prototype_labels
 
     return dataset
+
+
+def compare_generated_with_training_dataset_fast_label_list(
+    generated_dataset: list[list[int, str, str]],
+    training_dataset: list[str],
+    set_name: str,
+    return_duplicate_names: bool = False,
+) -> pd.DataFrame:
+
+    """
+
+    generated_dataset: list of lists, where second level contains [original_index, protostructure_label, prototype_label]
+    training_dataset: list of protostructure labels from reference set (e.g., train/val/test)
+    set_name: name of dataset, include split for explicitness
+    return_duplicate_names: return the duplicate names if needed for other function
+
+    returns: pd.DataFrame containing protostructures, prototypes, novel, novel_prototype, duplicates_{set_name}_set", duplicates_{set_name}_set_prototype
+    """
+
+    print(
+        f"Identifying novelty of generated data compared with {set_name} dataset, saving to attribute 'novel' and 'duplicates_{set_name}_set'...",
+        file=sys.stdout,
+    )
+
+    # Create a dataframe from the aflow label lists and canonical prototypes in the generated dataset
+    gen_df = pd.DataFrame(
+        generated_dataset, columns=["original_index", "protostructures", "prototypes"]
+    )
+
+    # --- Protostructures and prototypes matching
+
+    train_df = pd.DataFrame(training_dataset, columns=["protostructures"])
+    train_df["prototypes"] = train_df.protostructures.apply(
+        aviary_wren_utils.get_prototype_from_protostructure
+    )
+
+    # Check if novel (note that novel is opposite to is-in)
+    gen_df["novel"] = ~gen_df.protostructures.isin(train_df.protostructures)
+    gen_df["novel_prototype"] = ~gen_df.prototypes.isin(train_df.prototypes)
+
+    # Collect duplicates
+    # Protostructures
+    duplicate_attribute_name = f"duplicates_{set_name}_set"
+    train_grouped_protostructures = (
+        train_df.groupby("protostructures")["protostructures"]
+        .apply(list)
+        .reset_index(name=duplicate_attribute_name)
+    )
+    gen_df = gen_df.merge(
+        train_grouped_protostructures,
+        how="left",
+        left_on="protostructures",
+        right_on="protostructures",
+    )
+    gen_df[duplicate_attribute_name] = gen_df[duplicate_attribute_name].apply(
+        lambda x: x if isinstance(x, list) else []
+    )
+
+    # Prototypes
+    duplicate_prototype_attribute_name = f"duplicates_{set_name}_set_prototype"
+    train_grouped_prototypes = (
+        train_df.groupby("prototypes")["prototypes"]
+        .apply(list)
+        .reset_index(name=duplicate_prototype_attribute_name)
+    )
+    gen_df = gen_df.merge(
+        train_grouped_prototypes,
+        how="left",
+        left_on="prototypes",
+        right_on="prototypes",
+    )
+    gen_df[duplicate_prototype_attribute_name] = gen_df[
+        duplicate_prototype_attribute_name
+    ].apply(lambda x: x if isinstance(x, list) else [])
+
+    if return_duplicate_names:
+        return gen_df, duplicate_attribute_name, duplicate_prototype_attribute_name
+
+    return gen_df

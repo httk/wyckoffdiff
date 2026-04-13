@@ -11,6 +11,7 @@ from torch_geometric.data import Data, InMemoryDataset, download_url
 from torch_geometric.loader import DataLoader
 
 from wyckoff_generation.common.registry import registry
+from wyckoff_generation.common.utils import compare_hash
 from wyckoff_generation.datasets.lookup_tables import (
     element_number,
     spg_wyckoff,
@@ -197,14 +198,6 @@ def preprocess(raw_file_path) -> pd.DataFrame:
     # print(parsed_aflow_labels.columns)
 
     return parsed_aflow_labels
-
-
-def compare_hash(data_path, correct_hash):
-    sha256_hash = hashlib.sha256()
-    with open(data_path, "rb") as f:
-        for byte_block in iter(lambda: f.read(4096), b""):
-            sha256_hash.update(byte_block)
-    return sha256_hash.hexdigest() == correct_hash
 
 
 def decompress_bz2_file(

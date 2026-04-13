@@ -7,3 +7,5 @@ logs/
 # data -- include the README but ignore everything else
 data/*
 !data/README.md
+
+evaluation_checkpoint/*

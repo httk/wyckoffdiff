@@ -19,6 +19,7 @@ AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 
 """
 
+import hashlib
 import importlib
 import os
 import re
@@ -32,6 +33,14 @@ def get_pretrained_checkpoint(load_path, best=True):
     print("loading, ", load_path, file=sys.stdout)
     checkpoint = torch.load(load_path, map_location=lambda storage, loc: storage)
     return checkpoint
+
+
+def compare_hash(data_path, correct_hash):
+    sha256_hash = hashlib.sha256()
+    with open(data_path, "rb") as f:
+        for byte_block in iter(lambda: f.read(4096), b""):
+            sha256_hash.update(byte_block)
+    return sha256_hash.hexdigest() == correct_hash
 
 
 def increment_filename(file_path):
